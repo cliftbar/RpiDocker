@@ -7,7 +7,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 ENV hadoop_ver 2.7.1
-ENV spark_ver 1.6.2
+ENV spark_ver 2.1.0
 
 # Get Hadoop from US Apache mirror and extract just the native
 # libs. (Until we care about running HDFS with these containers, this
@@ -22,9 +22,9 @@ RUN mkdir -p /opt && \
 # Get Spark from US Apache mirror.
 RUN mkdir -p /opt && \
     cd /opt && \
-    curl http://www.us.apache.org/dist/spark/spark-${spark_ver}/spark-${spark_ver}-bin-hadoop2.6.tgz | \
+    curl http://www.us.apache.org/dist/spark/spark-${spark_ver}/spark-${spark_ver}-bin-hadoop276.tgz | \
         tar -zx && \
-    ln -s spark-${spark_ver}-bin-hadoop2.6 spark && \
+    ln -s spark-${spark_ver}-bin-hadoop276 spark && \
     echo Spark ${spark_ver} installed in /opt
 
 # Add the GCS connector.
