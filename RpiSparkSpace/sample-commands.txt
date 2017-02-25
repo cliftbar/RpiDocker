@@ -1,0 +1,21 @@
+#docker swarm create overlay network
+docker network create --driver overlay overnet
+
+# docker swarm haproxy for spark
+# https://github.com/docker-library/docs/tree/master/haproxy
+docker service create --name spark_proxy --network overnet --publish 8080:8080 --constraint node.hostname="controller" armhf/haproxy sh
+
+# local docker haproxy launch
+# docker run -d --name spark-haproxy -v haproxy.cfg:/usr/local/etc/haproxy:ro -p 8080:8080 armhf/haproxy
+
+# docker swarm start master w/ publishing ports
+# docker service create --name spark_master --network overnet --publish 8080:8080 --publish 8042:8042 --publish 4040:4040 --publish 7077:7077 ungawatkt/rpi-spark-210 ./start-master
+
+# docker swarm start master w/o publishing ports
+docker service create --name spark_master --network overnet ungawatkt/rpi-spark-210 ./start-master
+
+# docker swarm start worker w/o publishing ports
+docker service create --name spark_worker --network overnet ungawatkt/rpi-spark-210 ./start-worker
+
+# docker local start master
+# docker run -it -p 8080:8080 -p 8042:8042 -p 4040:4040 -p 7077:7077 ungawatkt/rpi-spark-210 ./start-master
