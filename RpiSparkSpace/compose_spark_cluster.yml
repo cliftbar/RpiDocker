@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+
+  spark-master:
+    image: ungawatkt/rpi-spark-210
+    command: ./start-master
+    networks:
+      - overnet
+    deploy:
+      placement:
+        #constraints: [node.role == manager]
+
+  spark-worker:
+    image: ungawatkt/rpi-spark-210
+    command: ./start-worker
+    networks:
+      - overnet
+
+  spark-proxy:
+    image: ungawatkt/rpi-haproxy
+    command: haproxy -f /usr/local/etc/haproxy/haproxy.cfg
+    ports:
+      - 8080:8080
+    networks:
+      - overnet
+    depends_on:
+      - spark-master
+    deploy:
+      mode: replicated
+      placement:
+        constraints: [node.hostname == controller]
+
+
+networks:
+    overnet:
