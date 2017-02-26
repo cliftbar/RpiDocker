@@ -1,24 +1,26 @@
-#docker swarm create overlay network
+# fix the ip tables
+iptables -P FORWARD ACCEPT
+
+# docker swarm create overlay network
 docker network create --driver overlay overnet
-
-# docker swarm haproxy for spark
-# https://github.com/docker-library/docs/tree/master/haproxy
-docker service create --name spark_proxy --network overnet --publish 8080:8080 --constraint node.hostname="controller" armhf/haproxy sh
-
-# local docker haproxy launch
-# docker run -it --rm --name spark-haproxy -v ~/git/RpiDocker/RpiSparkSpace/:/usr/local/etc/haproxy:ro -p 8080:8080 armhf/haproxy haproxy -f /usr/local/etc/haproxy/haproxy.cfg
 
 # docker swarm start master w/ publishing ports
 # docker service create --name spark_master --network overnet --publish 8080:8080 --publish 8042:8042 --publish 4040:4040 --publish 7077:7077 ungawatkt/rpi-spark-210 ./start-master
-
 # docker swarm start master w/o publishing ports
-docker service create --name spark_master --network overnet ungawatkt/rpi-spark-210 ./start-master
+docker service create --name spark-master --network overnet ungawatkt/rpi-spark-210 ./start-master
 
 # docker swarm start worker w/o publishing ports
-docker service create --name spark_worker --network overnet ungawatkt/rpi-spark-210 ./start-worker
+docker service create --name spark-worker --network overnet ungawatkt/rpi-spark-210 ./start-worker
 
 # docker local start master
 # docker run -it -p 8080:8080 -p 8042:8042 -p 4040:4040 -p 7077:7077 ungawatkt/rpi-spark-210 ./start-master
 
-# fix the ip tables
-#iptables -P FORWARD ACCEPT
+# docker swarm haproxy for spark
+# https://github.com/docker-library/docs/tree/master/haproxy
+# needs the spark host to exist already
+docker service create --name spark_proxy --network overnet --publish 8080:8080 --constraint node.hostname=="controller" ungawatkt/rpi-haproxy haproxy -f /usr/local/etc/haproxy/haproxy.cfg
+
+# local docker haproxy launch with mounted volume
+# docker run -it --rm --name spark-haproxy -v ~/git/RpiDocker/RpiSparkSpace/:/usr/local/etc/haproxy:ro -p 8080:8080 rpi-haproxy haproxy -f /usr/local/etc/haproxy/haproxy.cfg
+# local haproxy with built in config
+# docker run -it --rm --name spark-haproxy -p 8080:8080 rpi-haproxy haproxy -f /usr/local/etc/haproxy/haproxy.cfg
