@@ -7,9 +7,6 @@ services:
     command: ./start-master
     networks:
       - overnet
-    deploy:
-      placement:
-        #constraints: [node.role == manager]
 
   spark-worker:
     image: ungawatkt/rpi-spark-210
