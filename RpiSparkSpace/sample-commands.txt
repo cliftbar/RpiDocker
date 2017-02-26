@@ -19,3 +19,6 @@ docker service create --name spark_worker --network overnet ungawatkt/rpi-spark-
 
 # docker local start master
 # docker run -it -p 8080:8080 -p 8042:8042 -p 4040:4040 -p 7077:7077 ungawatkt/rpi-spark-210 ./start-master
+
+# fix the ip tables
+#iptables -P FORWARD ACCEPT
