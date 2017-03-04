@@ -16,7 +16,7 @@ services:
 
   spark-proxy:
     image: ungawatkt/rpi-haproxy
-    command: haproxy -f /usr/local/etc/haproxy/haproxy.cfg
+    command: haproxy -f /xcb_data/haproxy.cfg
     ports:
       - 8080:8080
     networks:
@@ -27,7 +27,8 @@ services:
       mode: replicated
       placement:
         constraints: [node.hostname == controller]
-
+    volumes:
+      - ./rpi-haproxy:/xcb_data
 
 networks:
     overnet:
