@@ -1,3 +1,4 @@
+# Adapted from https://github.com/kiwenlau/hadoop-cluster-docker
 FROM resin/rpi-raspbian:jessie
 
 # MAINTAINER KiwenLau <kiwenlau@gmail.com>
