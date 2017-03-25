@@ -26,4 +26,4 @@ docker service create --name spark_proxy --network overnet --publish 8080:8080 -
 # docker run -it --rm --name spark-haproxy -p 8080:8080 rpi-haproxy haproxy -f /usr/local/etc/haproxy/haproxy.cfg
 
 # Start swarm through compose file
-docker deploy --compose-file compose_spark_cluster.yml spark-cluster
+docker stack deploy --compose-file compose_spark_cluster.yml spark-cluster

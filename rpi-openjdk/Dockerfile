@@ -1,4 +1,4 @@
-FROM ungawatkt/rpi-devbase
+FROM cliftbar/rpi-devbase
 
 # Install OpenJDK 8
 RUN apt-get update && \

@@ -3,7 +3,7 @@ version: "3"
 services:
 
   spark-master:
-    image: ungawatkt/rpi-spark-210
+    image: cliftbar/rpi-spark
     command: ./start-master
     networks:
       - overnet
@@ -12,7 +12,7 @@ services:
         constraints: [node.hostname == controller]
 
   spark-worker:
-    image: ungawatkt/rpi-spark-210
+    image: cliftbar/rpi-spark
     command: ./start-worker
     depends_on:
       - spark-master 
@@ -25,7 +25,7 @@ services:
         #constraints: [node.hostname != controller]
 
   spark-proxy:
-    image: ungawatkt/rpi-haproxy
+    image: cliftbar/rpi-haproxy
     # command: sleep 30000
     command: haproxy -f /xcb_data/haproxy.cfg
     # command: haproxy -f /usr/local/etc/haproxy/haproxy.cfg

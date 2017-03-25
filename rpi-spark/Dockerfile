@@ -1,8 +1,8 @@
-FROM resin/rpi-raspbian:jessie
+FROM cliftbar/rpi-openjdk
 
 # Install OpenJDK 8
 RUN apt-get update && \
-    apt-get install -y apt-utils curl openjdk-8-jdk && \
+    apt-get install -y apt-utils curl && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
