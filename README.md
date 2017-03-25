@@ -2,7 +2,7 @@
 repo of docker images to run in a docker swarm consisting of a RPi 3 (master) and 4 RPi Zeros networked using a [ClusterHat](https://clusterhat.com/)
 
 ## rpi-devbase
-A docker image from raspbian jessie to serve as a base for all the raspberry pi images.
+A docker image from raspbian jessie to serve as a base for all the raspberry pi images.  This base allows for running on ARM (Zeros) and ARMv7 (RPi 2/3)
 Some nice to have dev tools are installed here for working in the images.
 
 ## rpi-openjdk
